@@ -2,17 +2,24 @@ package se.marej.atm.model;
 
 import java.util.Date;
 
-public final class ATMReceipt
+public class BankReceipt
 {
+	private final String bankId;
 	private final long transactionId;
 	private final int amount;
 	private final Date date;
 
-	public ATMReceipt(long transactionId, int amount)
+	public BankReceipt(String bankId, long transactionId, int amount, Date date)
 	{
+		this.bankId = bankId;
 		this.transactionId = transactionId;
 		this.amount = amount;
-		this.date = new Date(); // Date in java.util
+		this.date = date;
+	}
+
+	public String getBankId()
+	{
+		return bankId;
 	}
 
 	public long getTransactionId()
@@ -29,4 +36,5 @@ public final class ATMReceipt
 	{
 		return date;
 	}
+
 }

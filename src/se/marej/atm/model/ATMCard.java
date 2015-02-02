@@ -2,22 +2,29 @@ package se.marej.atm.model;
 
 public final class ATMCard
 {
-	private final Map<String, Bank> banks;
-	
-	
-	public ATMCard(List<Bank> banks)
+	private final String accountHolderId;
+	private final String bankId;
+	private final int pin;
+
+	public ATMCard(String accountHolderId, String bankId, int pin)
 	{
-		
-	}
-	
-	public ATMSession verifyPin(int pin , ATMCard card)
-	{
-		
-	}
-	
-	private Bank getBank(ATMCard card)
-	{
-		
+		this.accountHolderId = accountHolderId;
+		this.bankId = bankId;
+		this.pin = pin;
 	}
 
+	public String getAccountHolderId()
+	{
+		return accountHolderId;
+	}
+
+	public String getBankId()
+	{
+		return bankId;
+	}
+
+	public boolean verifyPin(int pin)
+	{
+		return this.pin == pin;
+	}
 }
