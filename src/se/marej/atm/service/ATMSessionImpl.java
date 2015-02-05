@@ -25,7 +25,6 @@ public class ATMSessionImpl extends AbstractATMSession
 		{
 			throw new ATMException("Not enough money on account");
 		}
-
 		return amount;
 	}
 
