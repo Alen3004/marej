@@ -10,7 +10,7 @@ import se.marej.atm.model.ATMCard;
 
 public final class ATM
 {
-	private final Map<String, Bank> banks;
+	private final Map<String, Bank> banks = new HashMap<>();
 
 	public ATM(List<Bank> banks)
 	{
@@ -18,8 +18,6 @@ public final class ATM
 		{
 			throw new IllegalArgumentException("There is no banks");
 		}
-
-		this.banks = new HashMap<String, Bank>();
 
 		for (Bank bank : banks)
 		{

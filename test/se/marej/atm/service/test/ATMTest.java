@@ -66,9 +66,14 @@ public class ATMTest
 
 		ATM atm = new ATM(banks);
 
+<<<<<<< HEAD
 		ATMCard wrongCard = new ATMCard("Jimmy", "Handelsbanken", 1234);
 
 		ATMSession session = atm.verifyPin(1234, wrongCard);
+=======
+		assertEquals("Jimmy", card.getAccountHolderId());
+		
+>>>>>>> a37ef0972e493ed6d67ff64218f23507478669d7
 
 	}
 

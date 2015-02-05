@@ -36,5 +36,4 @@ public class BankReceipt
 	{
 		return date;
 	}
-
 }
