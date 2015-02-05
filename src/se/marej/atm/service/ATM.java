@@ -14,6 +14,11 @@ public final class ATM
 
 	public ATM(List<Bank> banks)
 	{
+		if (banks.isEmpty())
+		{
+			throw new IllegalArgumentException("There is no banks");
+		}
+
 		for (Bank bank : banks)
 		{
 			this.banks.put(bank.getBankId(), bank);
@@ -36,7 +41,6 @@ public final class ATM
 		{
 			return banks.get(card.getBankId());
 		}
-
 		throw new ATMException("Dosent support this bank");
 	}
 }
