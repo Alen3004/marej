@@ -6,6 +6,7 @@ import se.marej.atm.model.ATMReceipt;
 
 public class ATMSessionImpl extends AbstractATMSession
 {
+	private int amount;
 
 	public ATMSessionImpl(ATMCard atmCard, Bank bank)
 	{
@@ -15,25 +16,28 @@ public class ATMSessionImpl extends AbstractATMSession
 	@Override
 	public long withdrawAmount(int amount)
 	{
-		if(amount <100 || amount >10000 )
+		if (amount < 100 || amount > 10000 || amount % 100 != 0)
 		{
-			return amount;
+			throw new ATMException("Not valid amount");
 		}
-		throw new ATMException("Not valid Amount");
+		if (bank.getBalance(atmCard.getAccountHolderId()) < amount)
+		{
+			throw new ATMException("Not enough money on account");
+		}
+
+		return amount;
 	}
 
 	@Override
 	public ATMReceipt requestReceipt(long transactionId)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return new ATMReceipt(transactionId, amount);
 	}
 
 	@Override
 	public long checkBalance()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return bank.getBalance(atmCard.getAccountHolderId());
 	}
 
 }
