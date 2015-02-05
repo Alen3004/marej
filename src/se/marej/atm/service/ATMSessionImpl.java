@@ -16,16 +16,12 @@ public class ATMSessionImpl extends AbstractATMSession
 	@Override
 	public long withdrawAmount(int amount)
 	{
-		if (amount < 100 || amount > 10000 || amount % 100 != 0)
-		{
-			throw new ATMException("Not valid amount");
-		}
-		if (bank.getBalance(atmCard.getAccountHolderId()) < amount)
-		{
-			throw new ATMException("Not enough money on account");
-		}
 
-		return amount;
+		if (amount > 100 || amount < 10000 || amount % 100 == 0)
+		{
+			return bank.withdrawAmount(amount);
+		}
+		throw new ATMException("Not valid amount");
 	}
 
 	@Override
