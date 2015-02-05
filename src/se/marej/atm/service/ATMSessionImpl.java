@@ -23,9 +23,9 @@ public class ATMSessionImpl extends AbstractATMSession
 		}
 		if (bank.getBalance(atmCard.getAccountHolderId()) < amount)
 		{
-			throw new ATMException("Not enough money on account");
+			return bank.withdrawAmount(amount);
 		}
-		return amount;
+		throw new ATMException("Not valid amount");
 	}
 
 	@Override
