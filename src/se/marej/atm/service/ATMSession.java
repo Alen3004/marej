@@ -9,5 +9,4 @@ public interface ATMSession
 	ATMReceipt requestReceipt(long transactionId);
 
 	long checkBalance();
-
 }

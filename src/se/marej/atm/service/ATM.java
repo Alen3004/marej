@@ -1,5 +1,6 @@
 package se.marej.atm.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,11 +10,14 @@ import se.marej.atm.model.ATMCard;
 
 public final class ATM
 {
-	private final Map<String, Bank> banks;
+	private final Map<String, Bank> banks = new HashMap<>();
 
 	public ATM(List<Bank> banks)
 	{
-
+		for (Bank bank : banks)
+		{
+			this.banks.put(bank.getBankId(), bank);
+		}
 	}
 
 	public ATMSession verifyPin(int pin, ATMCard card)
@@ -32,6 +36,7 @@ public final class ATM
 		{
 			return banks.get(card.getBankId());
 		}
-			throw new ATMException("Dosent support this bank");
+
+		throw new ATMException("Dosent support this bank");
 	}
 }

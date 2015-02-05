@@ -6,7 +6,6 @@ import se.marej.atm.model.ATMReceipt;
 
 public class ATMSessionImpl extends AbstractATMSession
 {
-
 	public ATMSessionImpl(ATMCard atmCard, Bank bank)
 	{
 		super(atmCard, bank);
@@ -15,7 +14,7 @@ public class ATMSessionImpl extends AbstractATMSession
 	@Override
 	public long withdrawAmount(int amount)
 	{
-		if(amount <100 || amount >10000 )
+		if (amount < 100 || amount > 10000)
 		{
 			return amount;
 		}
@@ -35,5 +34,4 @@ public class ATMSessionImpl extends AbstractATMSession
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

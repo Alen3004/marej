@@ -11,5 +11,4 @@ public interface Bank
 	long withdrawAmount(int amount);
 
 	BankReceipt requestReceipt(long transactionId);
-
 }
