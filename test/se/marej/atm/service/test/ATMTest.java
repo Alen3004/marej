@@ -122,4 +122,26 @@ public final class ATMTest
 
 		atm.verifyPin(1234, wrongCard);
 	}
+	
+	@Test()
+	public void shouldThrowExceptionWhenWithdrawAmountMethodIsCalledTwiceInARow()
+	{
+		exception.expect(ATMException.class);
+		exception.expectMessage("Can't call same method twice in a row");
+		
+		session.withdrawAmount(100);
+		session.withdrawAmount(100);
+	}
+	
+	@Test()
+	public void shouldThrowExceptionWhenCheckBalanceMethodIsCalledTwiceInARow()
+	{
+		exception.expect(ATMException.class);
+		exception.expectMessage("Can't call same method twice in a row");
+		
+		
+		session.checkBalance();
+		session.checkBalance();	
+
+	}
 }
