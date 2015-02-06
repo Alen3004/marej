@@ -16,7 +16,7 @@ public final class ATM
 {
 	private final Map<String, Bank> banks = new HashMap<>();
 
-	public ATM(List<Bank> banks)
+	public ATM(final List<Bank> banks)
 	{
 		if (banks.isEmpty())
 		{
@@ -40,7 +40,7 @@ public final class ATM
 	 * @return A ATMSession if the pin matches the card, and the bank on the
 	 *         card is connected to this ATM.
 	 */
-	public ATMSession verifyPin(int pin, ATMCard card)
+	public ATMSession verifyPin(final int pin, final ATMCard card)
 	{
 		if (card.verifyPin(pin) == true)
 		{
@@ -55,7 +55,7 @@ public final class ATM
 	 *            A ATMCard instance
 	 * @return The bank that the provided ATMCard is connected to.
 	 */
-	private Bank getBank(ATMCard card)
+	private Bank getBank(final ATMCard card)
 	{
 		if (banks.containsKey(card.getBankId()))
 		{

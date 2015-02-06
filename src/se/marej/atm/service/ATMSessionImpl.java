@@ -4,19 +4,19 @@ import se.marej.atm.excaption.ATMException;
 import se.marej.atm.model.ATMCard;
 import se.marej.atm.model.ATMReceipt;
 
-public class ATMSessionImpl extends AbstractATMSession
+public final class ATMSessionImpl extends AbstractATMSession
 {
 	private int amount;
 	private boolean withdrawAmountCalled = false;
 	private boolean checkBalanceCalled = false;
 
-	public ATMSessionImpl(ATMCard atmCard, Bank bank)
+	public ATMSessionImpl(final ATMCard atmCard, final Bank bank)
 	{
 		super(atmCard, bank);
 	}
 
 	@Override
-	public long withdrawAmount(int amount)
+	public long withdrawAmount(final int amount)
 	{
 		if (withdrawAmountCalled)
 		{
@@ -35,7 +35,7 @@ public class ATMSessionImpl extends AbstractATMSession
 	}
 
 	@Override
-	public ATMReceipt requestReceipt(long transactionId)
+	public ATMReceipt requestReceipt(final long transactionId)
 	{
 		return new ATMReceipt(transactionId, amount);
 	}
