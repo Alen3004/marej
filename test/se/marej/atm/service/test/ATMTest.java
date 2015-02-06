@@ -24,6 +24,15 @@ import se.marej.atm.service.Bank;
 @RunWith(MockitoJUnitRunner.class)
 public final class ATMTest
 {
+	/**
+	 * ATT GÖRA:
+	 * - Se till att alla publika metoder i vår subklass till AbstractATMSession är testade
+	 * TODO Testa requestReceipt i ATMSessionImpl
+	 * TODO Göra så att requestReciept i ATMSessionImpl fungerar som den skall
+	 * TODO Testa checkBalance i ATMSessionImpl
+	 * TODO Ta bort todo listan
+	 */
+	
 	private static final String ACCOUNT_ID = "Jimmy";
 	private static final String BANK_ID = "Nordea";
 	private static final int PIN = 987;
