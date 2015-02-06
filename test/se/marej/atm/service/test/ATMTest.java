@@ -68,7 +68,7 @@ public final class ATMTest
 	}
 
 	@Test(expected = ATMSecurityException.class)
-	public void verifyPinShouldThrowException()
+	public void shouldThrowExceptionWhenPinVerificationFails()
 	{
 		ATM atm = new ATM(banks);
 
