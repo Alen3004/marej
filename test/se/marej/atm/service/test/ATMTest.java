@@ -59,6 +59,52 @@ public final class ATMTest
 		reset(bank);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void shouldThrowExceptionWhenThereIsNoBank()
+	{
+		List<Bank> emptyBanks = new ArrayList<>();
+
+		new ATM(emptyBanks);
+	}
+
+	@Test(expected = ATMSecurityException.class)
+	public void verifyPinShouldThrowException()
+	{
+		ATM atm = new ATM(banks);
+
+		atm.verifyPin(1233, card);
+	}
+
+	@Test(expected = ATMException.class)
+	public void shouldThrowExceptionIfCardDontMatchBank()
+	{
+		ATM atm = new ATM(banks);
+
+		ATMCard wrongCard = new ATMCard("Jimmy", "Handelsbanken", 1234);
+
+		atm.verifyPin(1234, wrongCard);
+	}
+
+	@Test
+	public void shouldThrowExceptionWhenWithdrawAmountMethodIsCalledTwiceInARow()
+	{
+		exception.expect(ATMException.class);
+		exception.expectMessage("Can't call same method twice in a row");
+
+		session.withdrawAmount(100);
+		session.withdrawAmount(100);
+	}
+
+	@Test
+	public void shouldThrowExceptionWhenCheckBalanceMethodIsCalledTwiceInARow()
+	{
+		exception.expect(ATMException.class);
+		exception.expectMessage("Can't call same method twice in a row");
+
+		session.checkBalance();
+		session.checkBalance();
+	}
+
 	@Test
 	public void shouldThrowExceptionIfWithdrawAmountIsLowerThanOneHundred()
 	{
@@ -93,55 +139,5 @@ public final class ATMTest
 		exception.expectMessage("Not enough money");
 
 		session.withdrawAmount((int) (BALANCE1 + BALANCE1));
-	}
-
-	@Test(expected = ATMSecurityException.class)
-	public void verifyPinShouldThrowException()// TODO indicate why the
-												// exception should be thrown
-												// with method name
-	{
-		ATM atm = new ATM(banks);
-
-		atm.verifyPin(1233, card);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldThrowExceptionWhenThereIsNoBank()
-	{
-		List<Bank> emptyBanks = new ArrayList<>();
-
-		new ATM(emptyBanks);
-	}
-
-	@Test(expected = ATMException.class)
-	public void shouldThrowExceptionIfCardDontMatchBank()
-	{
-		ATM atm = new ATM(banks);
-
-		ATMCard wrongCard = new ATMCard("Jimmy", "Handelsbanken", 1234);
-
-		atm.verifyPin(1234, wrongCard);
-	}
-	
-	@Test()
-	public void shouldThrowExceptionWhenWithdrawAmountMethodIsCalledTwiceInARow()
-	{
-		exception.expect(ATMException.class);
-		exception.expectMessage("Can't call same method twice in a row");
-		
-		session.withdrawAmount(100);
-		session.withdrawAmount(100);
-	}
-	
-	@Test()
-	public void shouldThrowExceptionWhenCheckBalanceMethodIsCalledTwiceInARow()
-	{
-		exception.expect(ATMException.class);
-		exception.expectMessage("Can't call same method twice in a row");
-		
-		
-		session.checkBalance();
-		session.checkBalance();	
-
 	}
 }
