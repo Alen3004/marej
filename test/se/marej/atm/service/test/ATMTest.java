@@ -3,6 +3,7 @@ package se.marej.atm.service.test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 import org.mockito.Mock;
@@ -25,14 +26,12 @@ import se.marej.atm.service.Bank;
 public final class ATMTest
 {
 	/**
-	 * ATT GÖRA:
-	 * - Se till att alla publika metoder i vår subklass till AbstractATMSession är testade
-	 * TODO Testa requestReceipt i ATMSessionImpl
+	 * ATT GÖRA: - Se till att alla publika metoder i vår subklass till
+	 * AbstractATMSession är testade TODO Testa requestReceipt i ATMSessionImpl
 	 * TODO Göra så att requestReciept i ATMSessionImpl fungerar som den skall
-	 * TODO Testa checkBalance i ATMSessionImpl
-	 * TODO Ta bort todo listan
+	 * TODO Testa checkBalance i ATMSessionImpl TODO Ta bort todo listan
 	 */
-	
+
 	private static final String ACCOUNT_ID = "Jimmy";
 	private static final String BANK_ID = "Nordea";
 	private static final int PIN = 987;
@@ -95,10 +94,16 @@ public final class ATMTest
 	}
 
 	@Test
+	public void shouldReturnBalance()
+	{
+		assertEquals(BALANCE1, session.checkBalance());
+	}
+
+	@Test
 	public void shouldThrowExceptionWhenWithdrawAmountMethodIsCalledTwiceInARow()
 	{
 		exception.expect(ATMException.class);
-		exception.expectMessage("Can't call same method twice in a row");
+		exception.expectMessage("Can't call same method twice in one session");
 
 		session.withdrawAmount(100);
 		session.withdrawAmount(100);
@@ -108,7 +113,7 @@ public final class ATMTest
 	public void shouldThrowExceptionWhenCheckBalanceMethodIsCalledTwiceInARow()
 	{
 		exception.expect(ATMException.class);
-		exception.expectMessage("Can't call same method twice in a row");
+		exception.expectMessage("Can't call same method twice in one session");
 
 		session.checkBalance();
 		session.checkBalance();
@@ -149,4 +154,5 @@ public final class ATMTest
 
 		session.withdrawAmount((int) (BALANCE1 + BALANCE1));
 	}
+
 }
