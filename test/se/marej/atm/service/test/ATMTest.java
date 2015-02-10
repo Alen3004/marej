@@ -26,10 +26,11 @@ import se.marej.atm.service.Bank;
 public final class ATMTest
 {
 	/**
-	 * ATT GÖRA: - Se till att alla publika metoder i vår subklass till
-	 * AbstractATMSession är testade TODO Testa requestReceipt i ATMSessionImpl
-	 * TODO Göra så att requestReciept i ATMSessionImpl fungerar som den skall
-	 * TODO Testa checkBalance i ATMSessionImpl TODO Ta bort todo listan
+	 * ATT GÖRA: TODO Se till att alla publika metoder i vår subklass till
+	 * AbstractATMSession är testade. TODO Testa requestReceipt i
+	 * ATMSessionImpl. TODO Göra så att requestReciept i ATMSessionImpl fungerar
+	 * som den skall. TODO Testa checkBalance i ATMSessionImpl TODO Ta bort todo
+	 * listan.
 	 */
 
 	private static final String ACCOUNT_ID = "Jimmy";
@@ -94,16 +95,17 @@ public final class ATMTest
 	}
 
 	@Test
-	public void shouldReturnBalance()
+	public void shouldReturnCorrectBalance()
 	{
-		assertEquals(BALANCE1, session.checkBalance());
+		when(bank.getBalance(ACCOUNT_ID)).thenReturn(400L);
+		assertEquals(400L, session.checkBalance());
 	}
 
 	@Test
 	public void shouldThrowExceptionWhenWithdrawAmountMethodIsCalledTwiceInARow()
 	{
 		exception.expect(ATMException.class);
-		exception.expectMessage("Can't call same method twice in one session");
+		exception.expectMessage("Can't call same method twice");
 
 		session.withdrawAmount(100);
 		session.withdrawAmount(100);
@@ -113,7 +115,7 @@ public final class ATMTest
 	public void shouldThrowExceptionWhenCheckBalanceMethodIsCalledTwiceInARow()
 	{
 		exception.expect(ATMException.class);
-		exception.expectMessage("Can't call same method twice in one session");
+		exception.expectMessage("Can't call same method twice");
 
 		session.checkBalance();
 		session.checkBalance();
