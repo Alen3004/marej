@@ -3,10 +3,10 @@ package se.marej.atm.service;
 import se.marej.atm.exception.ATMException;
 import se.marej.atm.model.ATMCard;
 import se.marej.atm.model.ATMReceipt;
+import se.marej.atm.model.BankReceipt;
 
 public final class ATMSessionImpl extends AbstractATMSession
 {
-	private int amount;
 	private boolean withdrawAmountCalled = false;
 	private boolean checkBalanceCalled = false;
 
@@ -37,7 +37,13 @@ public final class ATMSessionImpl extends AbstractATMSession
 	@Override
 	public ATMReceipt requestReceipt(final long transactionId)
 	{
-		return new ATMReceipt(transactionId, amount);
+		BankReceipt reciept = bank.requestReceipt(transactionId);
+
+		/**
+		 * Eftersom kvittot skapas här kommer datumet på det vara för när man
+		 * begärde kvittot, inte för när uttaget skedde.
+		 */
+		return new ATMReceipt(reciept.getTransactionId(), reciept.getAmount());
 	}
 
 	@Override

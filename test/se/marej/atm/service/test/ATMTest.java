@@ -1,6 +1,7 @@
 package se.marej.atm.service.test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -20,6 +21,7 @@ import se.marej.atm.exception.ATMException;
 import se.marej.atm.exception.ATMSecurityException;
 import se.marej.atm.model.ATMCard;
 import se.marej.atm.model.ATMReceipt;
+import se.marej.atm.model.BankReceipt;
 import se.marej.atm.service.ATM;
 import se.marej.atm.service.ATMSession;
 import se.marej.atm.service.Bank;
@@ -40,6 +42,9 @@ public final class ATMTest
 	private static final int PIN = 987;
 	private static final long BALANCE1 = 1000;
 
+	private static final int TRANSACTION_A_AMOUNT = 100;
+	private static final long TRANSACTION_A_ID = 9999L;
+
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
@@ -56,6 +61,12 @@ public final class ATMTest
 	{
 		when(bank.getBankId()).thenReturn(BANK_ID);
 		when(bank.getBalance(ACCOUNT_ID)).thenReturn(BALANCE1);
+
+		// transaction id mocking
+		when(bank.withdrawAmount(TRANSACTION_A_AMOUNT)).thenReturn(TRANSACTION_A_ID);
+		when(bank.requestReceipt(TRANSACTION_A_ID)).thenReturn(
+				new BankReceipt(BANK_ID, TRANSACTION_A_ID, TRANSACTION_A_AMOUNT, new Date())
+				);
 
 		banks = new ArrayList<>();
 		banks.add(bank);
