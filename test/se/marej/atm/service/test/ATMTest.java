@@ -61,10 +61,10 @@ public final class ATMTest
 		when(bank.getBalance(ACCOUNT_ID)).thenReturn(BALANCE1);
 
 		// transaction id mocking
-//		when(bank.withdrawAmount(TRANSACTION_A_AMOUNT)).thenReturn(TRANSACTION_A_ID);
-//		when(bank.requestReceipt(TRANSACTION_A_ID)).thenReturn(
-//				new BankReceipt(bank.getBankId(), TRANSACTION_A_ID, TRANSACTION_A_AMOUNT, new Date())
-//				);
+		when(bank.withdrawAmount(TRANSACTION_A_AMOUNT)).thenReturn(TRANSACTION_A_ID);
+		when(bank.requestReceipt(TRANSACTION_A_ID)).thenReturn(
+				new BankReceipt(BANK_ID, TRANSACTION_A_ID, TRANSACTION_A_AMOUNT, new Date())
+				);
 
 		banks = new ArrayList<>();
 		banks.add(bank);
