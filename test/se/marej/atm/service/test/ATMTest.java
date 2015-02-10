@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 import org.mockito.Mock;
@@ -15,9 +16,10 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
-import se.marej.atm.excaption.ATMException;
-import se.marej.atm.excaption.ATMSecurityException;
+import se.marej.atm.exception.ATMException;
+import se.marej.atm.exception.ATMSecurityException;
 import se.marej.atm.model.ATMCard;
+import se.marej.atm.model.ATMReceipt;
 import se.marej.atm.service.ATM;
 import se.marej.atm.service.ATMSession;
 import se.marej.atm.service.Bank;
@@ -157,4 +159,41 @@ public final class ATMTest
 		session.withdrawAmount((int) (BALANCE1 + BALANCE1));
 	}
 
+	@Test
+	public void testWithdrawAmound()
+	{
+		ATMCard card = new ATMCard("1001", "Nordea", 1234);
+		ATMSession session = atm.verifyPin(1234, card);
+		int amountToWithdraw = 1000;
+		long balanceBeforeWithdraw = session.checkBalance();
+		session.withdrawAmount(amountToWithdraw);
+		assertTrue(session.checkBalance() == (balanceBeforeWithdraw - amountToWithdraw));
+	}
+
+	@Test
+	public void testRequestReceipt()
+	{
+		ATMCard card = new ATMCard("1001", "Nordea", 1234);
+		ATMSession session = atm.verifyPin(1234, card);
+		int amountToWithdraw = 1000;
+		session.withdrawAmount(amountToWithdraw);
+		ATMReceipt receipt = session.requestReceipt();
+
+		assertTrue(receipt.getTransactionId() == session.getTransactionId());
+
+	}
+
+	@Test
+	public void testCheckBalance()
+	{
+		ATMCard card = new ATMCard("1001", "Nordea", 1234);
+		ATMSession session = atm.verifyPin(1234, card);
+		long balanceBeforeWithdraw = session.checkBalance();
+
+		int amountToWithdraw = 1000;
+		session.withdrawAmount(amountToWithdraw);
+		
+		assertTrue(session.checkBalance() == (balanceBeforeWithdraw - amountToWithdraw));
+
+	}
 }
