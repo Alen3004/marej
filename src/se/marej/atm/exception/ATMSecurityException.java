@@ -1,4 +1,4 @@
-package se.marej.atm.excaption;
+package se.marej.atm.exception;
 
 public final class ATMSecurityException extends RuntimeException
 {

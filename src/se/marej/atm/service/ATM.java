@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import se.marej.atm.excaption.ATMException;
-import se.marej.atm.excaption.ATMSecurityException;
+import se.marej.atm.exception.ATMException;
+import se.marej.atm.exception.ATMSecurityException;
 import se.marej.atm.model.ATMCard;
 
 /**

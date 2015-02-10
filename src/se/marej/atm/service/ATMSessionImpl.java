@@ -1,6 +1,6 @@
 package se.marej.atm.service;
 
-import se.marej.atm.excaption.ATMException;
+import se.marej.atm.exception.ATMException;
 import se.marej.atm.model.ATMCard;
 import se.marej.atm.model.ATMReceipt;
 
