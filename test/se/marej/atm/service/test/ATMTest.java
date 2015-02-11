@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
@@ -188,10 +190,11 @@ public final class ATMTest
 		ATMSession session = atm.verifyPin(1234, card);
 		int amountToWithdraw = 1000;
 		session.withdrawAmount(amountToWithdraw);
-		ATMReceipt receipt = session.requestReceipt();
-
-		assertTrue(receipt.getTransactionId() == session.getTransactionId());
-
+		ATMReceipt receipt = session.requestReceipt(TRANSACTION_A_ID);
+		
+		verify(bank).requestReceipt(TRANSACTION_A_ID);
+		assertThat(receipt.getTransactionId(), is(TRANSACTION_A_ID));
+		
 	}
 
 	@Test
