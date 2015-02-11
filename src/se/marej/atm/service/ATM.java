@@ -18,7 +18,7 @@ public final class ATM
 
 	public ATM(final List<Bank> banks)
 	{
-		if (banks.isEmpty())
+		if (banks == null || banks.isEmpty() )
 		{
 			throw new IllegalArgumentException("There is no banks");
 		}
@@ -42,7 +42,7 @@ public final class ATM
 	 */
 	public ATMSession verifyPin(final int pin, final ATMCard card)
 	{
-		if (card.verifyPin(pin) == true)
+		if (card.verifyPin(pin))
 		{
 			return new ATMSessionImpl(card, getBank(card));
 		}

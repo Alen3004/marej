@@ -31,14 +31,6 @@ import se.marej.atm.service.Bank;
 @RunWith(MockitoJUnitRunner.class)
 public final class ATMTest
 {
-	/**
-	 * ATT GÖRA: TODO Se till att alla publika metoder i vår subklass till
-	 * AbstractATMSession är testade. TODO Testa requestReceipt i
-	 * ATMSessionImpl. TODO Göra så att requestReciept i ATMSessionImpl fungerar
-	 * som den skall. TODO Testa checkBalance i ATMSessionImpl TODO Ta bort todo
-	 * listan.
-	 */
-
 	private static final String ACCOUNT_ID = "Jimmy";
 	private static final String BANK_ID = "Nordea";
 	private static final int PIN = 987;
@@ -173,41 +165,21 @@ public final class ATMTest
 	}
 
 	@Test
-	public void testWithdrawAmound()
+	public void shouldCallBankWithdrawAmountIfEnoughBalance()
 	{
-		ATMCard card = new ATMCard("1001", "Nordea", 1234);
-		ATMSession session = atm.verifyPin(1234, card);
-		int amountToWithdraw = 1000;
-		long balanceBeforeWithdraw = session.checkBalance();
+		int amountToWithdraw = 500;
 		session.withdrawAmount(amountToWithdraw);
-		assertTrue(session.checkBalance() == (balanceBeforeWithdraw - amountToWithdraw));
+
+		verify(bank).withdrawAmount(amountToWithdraw);
 	}
 
 	@Test
-	public void testRequestReceipt()
+	public void shouldReturnCorrectReciept()
 	{
-		ATMCard card = new ATMCard("1001", "Nordea", 1234);
-		ATMSession session = atm.verifyPin(1234, card);
-		int amountToWithdraw = 1000;
-		session.withdrawAmount(amountToWithdraw);
+		session.withdrawAmount(TRANSACTION_A_AMOUNT);
 		ATMReceipt receipt = session.requestReceipt(TRANSACTION_A_ID);
-		
+
 		verify(bank).requestReceipt(TRANSACTION_A_ID);
 		assertThat(receipt.getTransactionId(), is(TRANSACTION_A_ID));
-		
-	}
-
-	@Test
-	public void testCheckBalance()
-	{
-		ATMCard card = new ATMCard("1001", "Nordea", 1234);
-		ATMSession session = atm.verifyPin(1234, card);
-		long balanceBeforeWithdraw = session.checkBalance();
-
-		int amountToWithdraw = 1000;
-		session.withdrawAmount(amountToWithdraw);
-		
-		assertTrue(session.checkBalance() == (balanceBeforeWithdraw - amountToWithdraw));
-
 	}
 }

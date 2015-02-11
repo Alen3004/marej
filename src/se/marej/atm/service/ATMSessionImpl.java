@@ -22,13 +22,13 @@ public final class ATMSessionImpl extends AbstractATMSession
 		{
 			throw new ATMException("Can't call same method twice in a row");
 		}
-		withdrawAmountCalled = true;
 		if (amount < 100 || amount > 10000 || amount % 100 != 0)
 		{
 			throw new ATMException("Not valid amount");
 		}
 		if (bank.getBalance(atmCard.getAccountHolderId()) >= amount)
 		{
+			withdrawAmountCalled = true;
 			return bank.withdrawAmount(amount);
 		}
 		throw new ATMException("Not enough money");
