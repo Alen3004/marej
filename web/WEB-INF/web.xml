@@ -25,11 +25,11 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>ATMSessionServlet</servlet-name>
-		<servlet-class>se.marej.atm.web.ATMSessionServlet</servlet-class>
+		<servlet-name>CreateCardServlet</servlet-name>
+		<servlet-class>se.marej.atm.web.CardServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ATMSessionServlet</servlet-name>
+		<servlet-name>CreateCardServlet</servlet-name>
 		<url-pattern>/createcard</url-pattern>
 	</servlet-mapping>
 </web-app>

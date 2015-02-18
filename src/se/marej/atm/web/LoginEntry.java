@@ -2,8 +2,8 @@ package se.marej.atm.web;
 
 final class LoginEntry
 {
-	final int accountId;
-	final int accountPin;
+	private final int accountId;
+	private final int accountPin;
 
 	LoginEntry(final int accountId, final int accountPin)
 	{

@@ -16,36 +16,37 @@ public class ATMFilter implements Filter
 	@Override
 	public void init(FilterConfig fConfig) throws ServletException
 	{
-
 	}
 
 	@Override
 	public void destroy()
 	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException
 	{
 		final HttpServletResponse httpResponse = (HttpServletResponse) response;
 		final HttpServletRequest httpRequest = (HttpServletRequest) request;
+
+		SessionManager sessionManager = SessionManager.getInstance();
 
 		try
 		{
 			int accountId = Util.extractSingleNumericParameterValue(httpRequest, "acc");
 			int accountPin = Util.extractSingleNumericParameterValue(httpRequest, "pin");
-			
+
 			String doThis = request.getParameter("do");
-			
-			if(doThis.equals("verifypin"))
+
+			if (doThis.equals("verifypin"))
 			{
-				ATMSessionServlet.createSession(accountId, accountPin);
+				sessionManager.createSession(accountId, accountPin);
 				chain.doFilter(request, response);
 				return;
 			}
-			
-			if (ATMSessionServlet.loginHasSession(accountId, accountPin))
+
+			if (sessionManager.loginHasSession(accountId, accountPin))
 			{
 				// pass the request along the filter chain
 				chain.doFilter(request, response);
