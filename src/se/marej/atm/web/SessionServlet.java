@@ -25,9 +25,9 @@ import se.marej.atm.service.HSBBank;
 public class SessionServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final AtomicInteger idGenerator = new AtomicInteger();
-	
+
 	private static final Map<Integer, ATMSession> sessions = new HashMap<>();
 
 	private ATM atm;
@@ -40,6 +40,7 @@ public class SessionServlet extends HttpServlet
 		atm = new ATM(banks);
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
@@ -81,10 +82,15 @@ public class SessionServlet extends HttpServlet
 		ATMCard card = new ATMCard("" + accountId, bankId, pin);
 
 		ATMSession session = atm.verifyPin(pin, card);
-		int id = idGenerator.getAndIncrement();
-		
-		sessions.put(id, session);
-		
-		response.getWriter().println("Your id: " + id);
+		int atmSessionId = idGenerator.getAndIncrement();
+
+		sessions.put(atmSessionId, session);
+
+		response.getWriter().println("Your SessionId: " + atmSessionId);
+	}
+	
+	public static ATMSession getSessionWithId(int sessionId)
+	{
+		return sessions.get(sessionId);
 	}
 }
