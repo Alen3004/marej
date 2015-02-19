@@ -24,56 +24,42 @@ public class OperationServlet extends HttpServlet
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
-		final BufferedReader buffReader = new BufferedReader(new InputStreamReader(req.getInputStream()));
-		String line = null;
+		Map<String,String> requestBody = Util.getRequestBody(req);
+		
+		// operation:withdraw,atmSessionId:8907654,amount:500
 
-		while ((line = buffReader.readLine()) != null)
+		final int sessionId;
+
+		try
 		{
-			final String[] parts = line.split(",");
-			final Map<String, String> requestBody = new HashMap<>();
+			sessionId = Util.extractInt(requestBody, "atmSessionId");
+		}
+		catch (WebException e)
+		{
+			resp.sendError(400, e.getMessage());
+			return;
+		}
 
-			for (String keyValue : parts)
+		ATMSession session = SessionServlet.getSessionWithId(sessionId);
+
+		if (requestBody.containsKey("operation"))
+		{
+			switch (requestBody.get("operation"))
 			{
-				final String[] splitKeyValue = keyValue.split(":");
-
-				requestBody.put(splitKeyValue[0], splitKeyValue[1]);
+			case "check-balance":
+				resp.getWriter().println(session.checkBalance());
+				break;
+			case "withdraw":
+				resp.getWriter().println(session.withdrawAmount(Integer.parseInt(requestBody.get("amount"))));
+				break;
+			default:
+				resp.sendError(400, "Unknown operation: " + requestBody.get("operation"));
+				break;
 			}
-
-			// operation:withdraw,atmSessionId:8907654,amount:500
-
-			final int sessionId;
-
-			try
-			{
-				sessionId = Util.extractInt(requestBody, "atmSessionId");
-			}
-			catch (WebException e)
-			{
-				resp.sendError(400, e.getMessage());
-				return;
-			}
-
-			ATMSession session = SessionServlet.getSessionWithId(sessionId);
-
-			if (requestBody.containsKey("operation"))
-			{
-				switch (requestBody.get("operation"))
-				{
-				case "check-balance":
-					resp.getWriter().println(session.checkBalance());
-					break;
-				case "withdraw":
-					resp.getWriter().println(session.withdrawAmount(Integer.parseInt(requestBody.get("amount"))));
-					break;
-				default:
-					resp.sendError(400, "Unknown operation: " + requestBody.get("operation"));
-					break;
-				}
-			}
-			else
-			{
-				resp.sendError(400, "Expected an operation");
-			}
+		}
+		else
+		{
+			resp.sendError(400, "Expected an operation");
 		}
 	}
 }
