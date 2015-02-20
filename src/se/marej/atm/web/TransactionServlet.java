@@ -22,17 +22,6 @@ public class TransactionServlet extends HttpServlet
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
-		// resp.getWriter().println(req.getHeader("atmSessionId"));
-
-		// String[] pathSegments = req.getPathInfo().split("/");
-		//
-		// for(String segment : pathSegments)
-		// {
-		// resp.getWriter().println(segment);
-		// }
-		//
-		// resp.getWriter().println(req.getPathInfo());
-
 		int atmSessionId = Integer.parseInt(req.getHeader("atmSessionId"));
 
 		ATMSession session = SessionServlet.getSessionWithId(atmSessionId);
@@ -43,7 +32,11 @@ public class TransactionServlet extends HttpServlet
 
 		ATMReceipt receipt = session.requestReceipt(transactionId);
 
-		resp.getWriter().println(receipt.getTransactionId());
+		resp.getWriter().println("Receipt:");
+		resp.getWriter().println("");
+		resp.getWriter().println(receipt.getDate());
+		resp.getWriter().println("TransactionID: " + receipt.getTransactionId());
+		resp.getWriter().println("Amount: " + receipt.getAmount());
 	}
 
 	public String extractTransactionId(String pathInfo)
