@@ -22,27 +22,47 @@ public class TransactionServlet extends HttpServlet
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
-		int atmSessionId = Integer.parseInt(req.getHeader("atmSessionId"));
+		try
+		{
+			int atmSessionId;
+			try
+			{
+				atmSessionId = Integer.parseInt(req.getHeader("atmSessionId"));
+			}
+			catch (NumberFormatException e)
+			{
+				throw new WebException("Invalid atmSessionId: " + req.getHeader("atmSessionId") + ". Must be an integer.");
+			}
 
-		ATMSession session = SessionServlet.getSessionWithId(atmSessionId);
+			ATMSession session = SessionServlet.getSessionWithId(atmSessionId);
 
-		String pathInfo = req.getPathInfo();
-		String transactionIdString = extractTransactionId(pathInfo);
-		int transactionId = Integer.parseInt(transactionIdString);
+			final int transactionId = extractTransactionId(req.getPathInfo());
 
-		ATMReceipt receipt = session.requestReceipt(transactionId);
+			final ATMReceipt receipt = session.requestReceipt(transactionId);
 
-		resp.getWriter().println("Receipt:");
-		resp.getWriter().println("");
-		resp.getWriter().println(receipt.getDate());
-		resp.getWriter().println("TransactionID: " + receipt.getTransactionId());
-		resp.getWriter().println("Amount: " + receipt.getAmount());
+			resp.getWriter().println("Receipt:");
+			resp.getWriter().println("");
+			resp.getWriter().println(receipt.getDate());
+			resp.getWriter().println("TransactionID: " + receipt.getTransactionId());
+			resp.getWriter().println("Amount: " + receipt.getAmount());
+		}
+		catch (WebException e)
+		{
+			resp.sendError(400, e.getMessage());
+		}
 	}
 
-	public String extractTransactionId(String pathInfo)
+	public int extractTransactionId(String pathInfo) throws WebException
 	{
 		String[] pathSegments = pathInfo.split("/");
-
-		return pathSegments[1];
+		try
+		{
+			int transactionId = Integer.parseInt(pathSegments[1]);
+			return transactionId;
+		}
+		catch (NumberFormatException e)
+		{
+			throw new WebException("Invalid transaction id: " + pathSegments[1] + ". Must be an integer.");
+		}
 	}
 }

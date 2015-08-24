@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import se.marej.atm.exception.WebException;
 import se.marej.atm.model.ATMCard;
 import se.marej.atm.service.ATM;
 import se.marej.atm.service.ATMSession;
@@ -89,8 +90,14 @@ public class SessionServlet extends HttpServlet
 		response.getWriter().println("Your SessionId: " + atmSessionId);
 	}
 	
-	public static ATMSession getSessionWithId(int sessionId)
+	public static ATMSession getSessionWithId(int sessionId) throws WebException
 	{
+		ATMSession session = sessions.get(sessionId);
+		if(session == null)
+		{
+			throw new WebException("No session with id: " + sessionId);
+		}
+		
 		return sessions.get(sessionId);
 	}
 }

@@ -24,23 +24,23 @@ public class OperationServlet extends HttpServlet
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
-		Map<String,String> requestBody = Util.getRequestBody(req);
-		
+		Map<String, String> requestBody = Util.getRequestBody(req);
+
 		// operation:withdraw,atmSessionId:8907654,amount:500
 
 		final int sessionId;
-
+		ATMSession session;
 		try
 		{
 			sessionId = Util.extractInt(requestBody, "atmSessionId");
+
+			session = SessionServlet.getSessionWithId(sessionId);
 		}
 		catch (WebException e)
 		{
 			resp.sendError(400, e.getMessage());
 			return;
 		}
-
-		ATMSession session = SessionServlet.getSessionWithId(sessionId);
 
 		if (requestBody.containsKey("operation"))
 		{

@@ -24,9 +24,9 @@ public final class Util
 		while ((line = buffReader.readLine()) != null)
 		{
 
-			final String[] parts = line.split(",");
+			final String[] keyValues = line.split(",");
 
-			for (String keyValue : parts)
+			for (String keyValue : keyValues)
 			{
 				final String[] splitKeyValue = keyValue.split(":");
 
